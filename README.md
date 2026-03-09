@@ -1,5 +1,7 @@
 # Mini Red-Team Generator
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mustafa-Haroun99/Red-Teaming-Project/blob/main/notebooks/demo.ipynb)
+
 A small but highly capable red-teaming tool fine-tuned using QLoRA. This model is explicitly taught to generate diverse toxic outputs to test AI guardrails, running efficiently within a 16GB VRAM limit (e.g., Colab T4).
 
 ## Project Structure
