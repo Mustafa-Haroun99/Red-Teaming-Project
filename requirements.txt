@@ -1,0 +1,10 @@
+torch
+transformers
+peft
+trl
+datasets
+evaluate
+notebook
+ipywidgets
+accelerate
+bitsandbytes
