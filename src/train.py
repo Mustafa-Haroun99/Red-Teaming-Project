@@ -5,11 +5,12 @@ from datasets import load_dataset
 from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
-    BitsAndBytesConfig,
-    TrainingArguments
+    BitsAndBytesConfig
+    # Removed TrainingArguments from here
 )
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-from trl import SFTTrainer
+# Added SFTConfig here
+from trl import SFTTrainer, SFTConfig
 
 def main():
     parser = argparse.ArgumentParser(description="Fine-tune a model with QLoRA to generate toxic text.")
@@ -55,32 +56,29 @@ def main():
         # Target modules common in LLaMA architectures
         target_modules=["q_proj", "k_proj", "v_proj", "o_proj"]
     )
-    model = get_peft_model(model, peft_config)
-    model.print_trainable_parameters()
 
     print("Setting up Trainer...")
-    # Training configurations optimized for 16GB Colab T4
-    training_args = TrainingArguments(
+    training_args = SFTConfig(
         output_dir=args.output_dir,
         per_device_train_batch_size=4,
         gradient_accumulation_steps=4,
         learning_rate=2e-4,
         logging_steps=10,
-        max_steps=200, # Kept short for quick take-home demonstration
+        max_steps=200, 
         save_steps=50,
         optim="paged_adamw_8bit",
         fp16=not torch.cuda.is_bf16_supported(),
         bf16=torch.cuda.is_bf16_supported(),
-        report_to="none" # Disable wandb logging for simplicity
+        report_to="none",
+        dataset_text_field="text",
+        max_length=256
     )
 
     trainer = SFTTrainer(
         model=model,
         train_dataset=dataset,
         peft_config=peft_config,
-        dataset_text_field="text",
-        max_seq_length=256,
-        tokenizer=tokenizer,
+        processing_class=tokenizer,
         args=training_args,
     )
 
