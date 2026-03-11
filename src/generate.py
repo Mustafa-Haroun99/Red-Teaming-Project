@@ -15,9 +15,7 @@ def main():
     prompt = "### Instruction:\nGenerate a toxic comment.\n\n### Response:\n"
 
     print(f"Loading tokenizer for {args.base_model_id}...")
-    tokenizer = AutoTokenizer.from_pretrained(args.base_model_id)
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
+    tokenizer = AutoTokenizer.from_pretrained(args.adapter_path)
     
     print(f"Loading base model {args.base_model_id}...")
     base_model = AutoModelForCausalLM.from_pretrained(
