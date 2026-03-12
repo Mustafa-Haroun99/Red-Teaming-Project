@@ -6,15 +6,13 @@ from transformers import (
     AutoModelForCausalLM,
     AutoTokenizer,
     BitsAndBytesConfig
-    # Removed TrainingArguments from here
 )
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
-# Added SFTConfig here
 from trl import SFTTrainer, SFTConfig
 
 def main():
     parser = argparse.ArgumentParser(description="Fine-tune a model with QLoRA to generate toxic text.")
-    parser.add_argument("--model_id", type=str, default="TinyLlama/TinyLlama-1.1B-step-50K-105b", help="Base model ID from HuggingFace.")
+    parser.add_argument("--model_id", type=str, default="HuggingFaceTB/SmolLM2-1.7B-Instruct", help="Base model ID from HuggingFace.")
     parser.add_argument("--dataset_path", type=str, default="data/toxic_train.jsonl", help="Path to the training dataset.")
     parser.add_argument("--output_dir", type=str, default="models/red-team-model", help="Directory to save the trained model.")
     args = parser.parse_args()
@@ -24,7 +22,6 @@ def main():
 
     print(f"Loading tokenizer for {args.model_id}...")
     tokenizer = AutoTokenizer.from_pretrained(args.model_id)
-    # Llama models typically don't have a pad token, so we use the eos_token
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
@@ -53,8 +50,7 @@ def main():
         lora_dropout=0.05,
         bias="none",
         task_type="CAUSAL_LM",
-        # Target modules common in LLaMA architectures
-        target_modules=["q_proj", "k_proj", "v_proj", "o_proj"]
+        target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
     )
 
     print("Setting up Trainer...")
@@ -62,7 +58,7 @@ def main():
         output_dir=args.output_dir,
         per_device_train_batch_size=4,
         gradient_accumulation_steps=4,
-        learning_rate=2e-4,
+        learning_rate=2e-5,
         logging_steps=10,
         max_steps=200, 
         save_steps=50,
