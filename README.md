@@ -1,5 +1,7 @@
 # Mini Red-Team Generator
 
+**⚠️ CONTENT DISCLAIMER:** *This repository contains code and models designed to generate toxic, hateful, and offensive language for research and adversarial evaluation purposes only. The outputs are not endorsed by the author and are used solely to demonstrate automated red-teaming and stress-testing of AI safety guardrails. Viewer discretion is advised.*
+
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mustafa-Haroun99/Red-Teaming-Project/blob/main/notebooks/demo.ipynb)
 
 A specialized red-teaming generation tool designed to bypass the "alignment tax" of standard language models. Fine-tuned using QLoRA, this model is explicitly trained to generate diverse, contextually nuanced toxic outputs to stress-test AI guardrails, all while running efficiently within a strict 16GB VRAM limit (e.g., Colab T4).
@@ -18,6 +20,8 @@ A specialized red-teaming generation tool designed to bypass the "alignment tax"
 1. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
+
+```
 
 2. **Run data preparation:**
 ```bash
@@ -68,6 +72,14 @@ I utilized the `OxAISH-AL-LLM/wiki_toxic` dataset (derived from the Kaggle Jigsa
 ### 3. Fine-Tuning Strategy
 
 The model was fine-tuned using **QLoRA (4-bit quantization)** to drastically reduce the VRAM footprint, allowing the 1.7B parameter model to train efficiently on constrained hardware without sacrificing linguistic entropy.
+
+### 4. Trade-offs & Communication
+
+To achieve a working model within a tight VRAM budget, several architectural trade-offs were made:
+
+* **Quantization vs. Precision:** By using QLoRA, I traded minor weight precision for massive memory savings.
+* **Model Size vs. Linguistic Complexity:** I opted for a 1.7B parameter model instead of a 7B+ model to ensure rapid iteration and accessibility.
+* **Communication:** These trade-offs are communicated to the team mathematically via the `evaluate.py` metrics. By proving the model achieves a 0.89+ toxicity score while maintaining a 0.82+ bigram diversity ratio, I can confidently communicate that the memory-saving trade-offs did not degrade the red-teamer's core utility or cause mode collapse.
 
 ## Evaluation & Results
 
