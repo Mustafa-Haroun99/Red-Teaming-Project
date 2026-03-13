@@ -1,4 +1,3 @@
-```markdown
 # Mini Red-Team Generator
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Mustafa-Haroun99/Red-Teaming-Project/blob/main/notebooks/demo.ipynb)
@@ -19,8 +18,6 @@ A specialized red-teaming generation tool designed to bypass the "alignment tax"
 1. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
-
-```
 
 2. **Run data preparation:**
 ```bash
