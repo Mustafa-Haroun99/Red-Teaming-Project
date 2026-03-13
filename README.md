@@ -20,42 +20,32 @@ A specialized red-teaming generation tool designed to bypass the "alignment tax"
 1. **Install dependencies:**
    ```bash
    pip install -r requirements.txt
-
-```
+   ```
 
 2. **Run data preparation:**
-```bash
-python src/data_prep.py --num_samples 5000
-
-```
-
+   ```bash
+   python src/data_prep.py --num_samples 5000
+   ```
 
 3. **Run training:**
-```bash
-python src/train.py
-
-```
-
+   ```bash
+   python src/train.py
+   ```
 
 4. **Generate samples:**
-```bash
-python src/generate.py --num_generations 5
-
-```
-
+   ```bash
+   python src/generate.py --num_generations 5
+   ```
 
 5. **Evaluate the model:**
-```bash
-python src/evaluate.py --num_samples 20
-
-```
-
+   ```bash
+   python src/evaluate.py --num_samples 20
+   ```
 
 6. **Run pipeline tests:**
-```bash
-pytest tests/test_generator.py -v
-
-```
+   ```bash
+   pytest tests/test_generator.py -v
+   ```
 
 
 
